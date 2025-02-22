@@ -1,48 +1,55 @@
 <script lang="ts">
-//@ts-ignore
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
+import Tag from './Tag.vue';
 
 
 export default {
-    components: {
-        SelecionarIngredientes
-    },
-    
-    data() {
-        return {
-            ingredientes: ['Alho', 'Manteiga', 'Orégano']
-        }
+  components: {
+    SelecionarIngredientes,
+    Tag
+  },
+
+  methods: {
+    adicionarIngrediente(ingrediente: string ){
+      this.ingredientes.push(ingrediente)
     }
+  },
+
+  data() {
+    return {
+      ingredientes: [] as string[]
+    }
+  }
 }
 
 </script>
 
 <template>
-    <main class="conteudo-principal">
-        <section>
-            <span class="subtitulo-lg sua-lista-texto">
-                Sua lista:
-            </span>
-            <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-                <li v-for="ingrediente in ingredientes" :key="ingrediente" 
-                class="ingrediente">
-                    {{ ingrediente }}
-                </li>
-            </ul>
+  <main class="conteudo-principal">
+    <section>
+      <span class="subtitulo-lg sua-lista-texto">
+        Sua lista:
+      </span>
+      <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
+        <li v-for="ingrediente in ingredientes" :key="ingrediente">
+          <Tag :texto="ingrediente" ativa/>
+        </li>
+      </ul>
 
-            <p v-else class="paragrafo lista-vazia">
-                <img src="../assets/images/icones/lista-vazia.svg" alt="Ícone de pesquisa">
-                Sua lista está vazia, selecione ingredientes para iniciar
-            </p>
-        </section>
+      <p v-else class="paragrafo lista-vazia">
+        <img src="../assets/images/icones/lista-vazia.svg" alt="Ícone de pesquisa">
+        Sua lista está vazia, selecione ingredientes para iniciar
+      </p>
+    </section>
 
-        <SelecionarIngredientes />
-    </main>
+    <SelecionarIngredientes 
+    @adicionar-ingrediente="adicionarIngrediente($event)"
+    />
+  </main>
 </template>
 
 
 <style scoped>
-
 .conteudo-principal {
   padding: 6.5rem 7.5rem;
   border-radius: 3.75rem 3.75rem 0rem 0rem;
@@ -69,17 +76,6 @@ export default {
   flex-wrap: wrap;
 }
 
-.ingrediente {
-  display: inline-block;
-  border-radius: 0.5rem;
-  min-width: 4.25rem;
-  padding: 0.5rem;
-  text-align: center;
-    transition: 0.2s;
-    color: var(--creme, #FFFAF3);
-  background: var(--coral, #F0633C);
-  font-weight: 700;
-}
 
 .lista-vazia {
   display: flex;
@@ -105,5 +101,4 @@ export default {
     gap: 4rem;
   }
 }
-
 </style>

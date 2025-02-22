@@ -17,7 +17,8 @@ import type ICategoria from '@/interfaces/ICategoria';
 
         components: {
           CardCategoria
-        }
+        },
+        emits: ['adicionarIngrediente']
     }
     
 </script>
@@ -26,12 +27,15 @@ import type ICategoria from '@/interfaces/ICategoria';
     <section class="selecionar-ingradientes">
         <h1 class="cabecalho titulo-ingredientes">Ingredientes</h1>
 
-        <p class="paragrafo-lg instrucoes"> </p>
+        <p class="paragrafo-lg instrucoes">Selecione abaixo os ingradientes que você quer usar nesta receita:</p>
     </section>
 
     <ul class="categorias">
         <li v-for="categoria in categorias" :key="categoria.nome">
-            <CardCategoria :categoria="categoria"/>
+            <CardCategoria 
+            :categoria="categoria"
+            @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+            />
         </li>
     </ul>
 
@@ -53,6 +57,7 @@ import type ICategoria from '@/interfaces/ICategoria';
   color: var(--verde-medio, #3D6D4A);
   display: block;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .instrucoes {
