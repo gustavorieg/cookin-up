@@ -1,23 +1,33 @@
 <script lang="ts">
+import MostarReceitas from './MostarReceitas.vue';
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
 import Tag from './Tag.vue';
 
+type Pagina = 'SelecionarIngredientes' | 'MostrarReceitas';
 
 export default {
   components: {
     SelecionarIngredientes,
-    Tag
+    Tag,
+    MostarReceitas
   },
 
   methods: {
     adicionarIngrediente(ingrediente: string ){
       this.ingredientes.push(ingrediente)
+    },
+    removerIngrediente(ingrediente: string){
+      this.ingredientes = this.ingredientes.filter(iLista => ingrediente !== iLista)
+    },
+    navegar(pagina: Pagina){
+      this.conteudo = pagina;
     }
   },
 
   data() {
     return {
-      ingredientes: [] as string[]
+      ingredientes: [] as string[],
+      conteudo: 'SelecionarIngredientes' as Pagina
     }
   }
 }
@@ -42,9 +52,23 @@ export default {
       </p>
     </section>
 
-    <SelecionarIngredientes 
-    @adicionar-ingrediente="adicionarIngrediente($event)"
-    />
+    <KeepAlive include="SelecionarIngredientes">
+          
+        <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
+          @adicionar-ingrediente="adicionarIngrediente($event)"
+          @remover-ingrediente="removerIngrediente($event)"
+          @buscar-receitas="navegar('MostrarReceitas')"
+        />
+
+        <MostarReceitas 
+         :ingredientes = "ingredientes"
+          v-else-if="conteudo === 'MostrarReceitas'"
+          @editar-receitas="navegar('SelecionarIngredientes')"
+        />
+
+    </KeepAlive>
+
+
   </main>
 </template>
 

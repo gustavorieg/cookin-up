@@ -3,8 +3,10 @@
 import { obterCategorias } from '@/http';
 import CardCategoria from './CardCategoria.vue';
 import type ICategoria from '@/interfaces/ICategoria';
+import BotaoPrincipal from './BotaoPrincipal.vue';
 
     export default {
+        name: 'SelecionarIngredientes',
         data() {
             return {
                 categorias: [] as ICategoria[]
@@ -16,9 +18,10 @@ import type ICategoria from '@/interfaces/ICategoria';
         },
 
         components: {
-          CardCategoria
+          CardCategoria,
+          BotaoPrincipal
         },
-        emits: ['adicionarIngrediente']
+        emits: ['adicionarIngrediente', 'removerIngrediente', 'buscarReceitas']
     }
     
 </script>
@@ -35,6 +38,7 @@ import type ICategoria from '@/interfaces/ICategoria';
             <CardCategoria 
             :categoria="categoria"
             @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+            @remover-ingrediente="$emit('removerIngrediente', $event)"
             />
         </li>
     </ul>
@@ -42,6 +46,8 @@ import type ICategoria from '@/interfaces/ICategoria';
     <p class="paragrafo dica">
         *Atenção: consideramos que você tem em casa sal, pimenta e água.
     </p>
+
+    <BotaoPrincipal texto="Buscar receitas!" @click="$emit('buscarReceitas')" />
 </template>
 
 

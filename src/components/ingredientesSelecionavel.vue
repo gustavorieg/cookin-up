@@ -22,13 +22,14 @@ export default {
     methods: {
         aoClicar() {
             this.selecionado = !this.selecionado
-
             if (this.selecionado) {
-                this.$emit('adicionarIngrediente', this.ingrediente)
+                this.$emit('adicionarIngrediente', this.ingrediente);
+            } else {
+                this.$emit('removerIngrediente', this.ingrediente);
             }
         }
     },
-    emits: ['adicionarIngrediente']
+    emits: ['adicionarIngrediente', 'removerIngrediente']
 }
 </script>
 
